@@ -1,10 +1,11 @@
 {
   "name": "Paroliamo Deluxe",
   "short_name": "Paroliamo",
-  "start_url": "paroliamo_deluxe.html",
+  "start_url": "./",
+  "scope": "./",
   "display": "standalone",
   "background_color": "#ffffff",
-  "theme_color": "#ff9800",
+  "theme_color": "#ffffff",
   "icons": [
     {
       "src": "icon-192.png",
