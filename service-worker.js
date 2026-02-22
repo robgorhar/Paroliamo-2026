@@ -1,7 +1,7 @@
 const CACHE_NAME = "paroliamo-v2";
 
 const FILES_TO_CACHE = [
-  "paroliamo_deluxe.html",
+  "index.html",
   "dizionario.js",
   "manifest.json",
   "icon-192.png",
@@ -38,4 +38,5 @@ self.addEventListener("fetch", (event) => {
     fetch(event.request).catch(() => caches.match(event.request))
   );
 });
+
 
