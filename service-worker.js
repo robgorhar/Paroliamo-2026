@@ -1,4 +1,4 @@
-const CACHE_NAME = "paroliamo-v1";
+const CACHE_NAME = "paroliamo-v2";
 
 const FILES_TO_CACHE = [
   "paroliamo_deluxe.html",
@@ -38,3 +38,4 @@ self.addEventListener("fetch", (event) => {
     fetch(event.request).catch(() => caches.match(event.request))
   );
 });
+
