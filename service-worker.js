@@ -1,7 +1,8 @@
-const CACHE_NAME = "paroliamo-cache-v16";
+const CACHE_NAME = "paroliamo-cache-v17";
 
 const FILES_TO_CACHE = [
   "index.html",
+  "script.js",
   "dizionario.js",
   "manifest.json",
   "icon-192.png",
