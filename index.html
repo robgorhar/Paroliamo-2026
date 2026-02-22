@@ -544,13 +544,19 @@ function inserisciLettera(lettera) {
     for (let i = 0; i < lettereEstratte.length; i++) {
         if (lettereEstratte[i] === lettera && !lettereUsate.includes(i)) {
 
-            lettereUsate.push(i);
-            aggiornaUI();
+            // 1. Aggiorna subito il placeholder (stato logico)
+            slot.textContent = lettera;
+            slot.dataset.letterIndex = i;
 
+            // 2. Aggiorna lo stato delle lettere usate
+            lettereUsate.push(i);
+
+            // 3. Aggiorna la UI DOPO aver fissato lo stato
+            requestAnimationFrame(() => aggiornaUI());
+
+            // 4. Avvia l’animazione (non influisce sullo stato)
             const letterEl = document.getElementById("letter-" + i);
             animaVolo(letterEl, slot, lettera);
-
-            slot.dataset.letterIndex = i;
 
             return;
         }
