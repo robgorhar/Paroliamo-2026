@@ -329,7 +329,7 @@ let giocoAttivo = false;
 let parolaGiocatoreValida = false;
 let timerInterval = null;
 let tempoRimanente = 0;
-
+let inputLock = false;   // 🔒 blocco anti-digitazione rapida
 /* --- UI LETTERE --- */
 function aggiornaUI() {
     const container = document.getElementById("letters");
@@ -506,10 +506,12 @@ function animaVolo(letterElement, placeholderElement, lettera) {
         clone.style.transform = "scale(0.9)";
     });
 
-    clone.addEventListener("transitionend", () => {
-        clone.remove();
-        placeholderElement.textContent = lettera;
-    });
+clone.addEventListener("transitionend", () => {
+    clone.remove();
+    placeholderElement.textContent = lettera;
+    inputLock = false;   // 🔓 sblocca l’input quando l’animazione è finita
+});
+    
 }
 
 /* --- DIGITAZIONE DIRETTA --- */
@@ -538,6 +540,9 @@ document.getElementById("btnVai").addEventListener("click", () => {
 
 /* --- INSERIMENTO LETTERA --- */
 function inserisciLettera(lettera) {
+    if (inputLock) return;   // 🔒 evita input multipli sovrapposti
+    inputLock = true;
+    
     const slot = placeholders.find(s => s.textContent === "");
     if (!slot) return;
 
@@ -756,6 +761,7 @@ if ("serviceWorker" in navigator) {
 
 </body>
 </html>
+
 
 
 
