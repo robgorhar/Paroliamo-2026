@@ -512,6 +512,12 @@ function animaVolo(letterElement, placeholderElement, lettera) {
     });
 }
 
+    clone.addEventListener("transitionend", () => {
+        clone.remove();
+        placeholderElement.textContent = lettera;
+    });
+}
+
 /* --- DIGITAZIONE DIRETTA --- */
 window.addEventListener("keydown", (event) => {
     if (!giocoAttivo) return;
@@ -752,3 +758,4 @@ if ("serviceWorker" in navigator) {
 
 </body>
 </html>
+
