@@ -9,14 +9,102 @@
 
 <style>
 
-/* --- STRUTTURA BASE --- */
-body {
-    font-family: Arial, sans-serif;
-    background: radial-gradient(circle at top, #fdfbfb, #ebedee);
-    margin: 0;
-    padding: 20px;
-    text-align: center;
-    color: #333;
+/* --- BOX COMPATTI PER LE PAROLE DEL COMPUTER --- */
+
+/* --- BOX COMPATTI PER LE PAROLE DEL COMPUTER --- */
+.cpu-box {
+    border: 2px solid #333;
+    border-radius: 10px;
+    padding: 6px 10px;
+    margin: 8px auto;
+    max-width: 500px;
+    cursor: pointer;
+    transition: background 0.2s;
+    font-size: 14px;
+    line-height: 1.2;
+    overflow: hidden; /* impedisce espansione automatica */
+    white-space: nowrap; /* impedisce a capo */
+}
+
+/* sfondi */
+.cpu-box.eq {
+    background: #e8f8ec;   /* verdolino */
+}
+
+.cpu-box.plus {
+    background: #fdeaea;   /* rosso pallido */
+}
+
+/* simbolo differenza */
+.cpu-box-header {
+    font-size: 20px;
+    font-weight: bold;
+    display: inline;
+    margin-right: 6px;
+    white-space: nowrap;
+}
+
+/* parole: UNA sola riga visibile */
+.cpu-box-content {
+    display: inline;
+    vertical-align: middle;
+    overflow: hidden;
+    max-height: 1.3em; /* altezza fissa */
+    white-space: nowrap; /* impedisce a capo */
+    transition: max-height 0.25s ease;
+}
+
+/* espansione */
+.cpu-box.expanded .cpu-box-content {
+    max-height: 500px; /* si espande solo al tap */
+    white-space: normal; /* ora può andare a capo */
+}
+
+/* --- BADGE PUNTEGGI --- */
+.score-badge {
+    display: inline-block;
+    padding: 2px 8px;
+    border-radius: 6px;
+    font-weight: bold;
+    margin: 0 4px;
+    font-size: 16px;
+    border: 2px solid #333;
+}
+
+/* badge giocatore */
+.score-player {
+    background: #e8f8ec;   /* verdolino */
+    color: #2e7d32;
+}
+
+/* badge computer */
+.score-cpu {
+    background: #fdeaea;   /* rosso pallido */
+    color: #c0392b;
+}
+
+/* evidenzia il vincitore */
+.score-winner {
+    box-shadow: 0 0 6px rgba(0,0,0,0.4);
+    transform: scale(1.05);
+}
+
+/* colori differenza */
+.diff-eq { color: #27ae60; }   /* = verde */
+.diff-plus1 { color: #2980b9; } /* +1 blu */
+.diff-plus2 { color: #c0392b; } /* +2 rosso */
+.diff-plus3 { color: #8e44ad; } /* +3 viola */
+.diff-plus4 { color: #d35400; } /* +4 arancio */
+
+@keyframes pop {
+    0%   { transform: scale(1); }
+    40%  { transform: scale(1.18); }
+    70%  { transform: scale(1.05); }
+    100% { transform: scale(1.0); }
+}
+
+.score-winner {
+    animation: pop 0.35s ease-out;
 }
 
 /* --- TITOLO + JOLLY --- */
@@ -277,7 +365,7 @@ body {
 <div id="celebrationBanner" style="display:none;"></div>
 <div id="confettiContainer"></div>
 <div id="titleRow">
-    <h1>Paroliamo 2026 </h1>
+    <h1>Paroliamo 2026</h1>
 
     <div id="jollyContainer" onclick="usaJolly()">
         <div class="jolly-svg">J</div>
@@ -342,4 +430,3 @@ body {
 
 </body>
 </html>
-
