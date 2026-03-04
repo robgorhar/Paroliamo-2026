@@ -423,11 +423,13 @@ function verifica() {
         resultEl.innerText = "❌ Parola non trovata nel dizionario.";
         return;
     }
+// Se siamo qui, la parola è valida
+parolaGiocatoreValida = true;
 
-    parolaGiocatoreValida = true;
+// per ora non scriviamo ancora il punteggio completo,
+// lo aggiorneremo dopo in mossaComputer()
+document.getElementById("result").innerText = "✔️ Parola valida!";
 
-    const punti = parola.length;
-    resultEl.innerText = "✔️ Parola valida! +" + punti + " punti";
 }
 
 /* --- BANNER COMPLIMENTI --- */
@@ -603,7 +605,7 @@ function applicaPenalitaJolly() {
     mostraPenaltyBanner();
 }
 
-/* --- MOSSA COMPUTER --- */
+/* --- MOSSA COMPUTER (versione con box grafici) --- */
 function mossaComputer() {
     if (!window.dizionario) return;
 
@@ -618,7 +620,29 @@ function mossaComputer() {
 
     const migliore = valide[0] || "";
     const parolaGioc = parolaGiocatore();
+    const lenG = parolaGioc ? parolaGioc.length : 0;
+const puntiGioc = lenG;
+const puntiCpu = migliore ? migliore.length : 0;
 
+if (parolaGiocatoreValida) {
+
+    const puntiGioc = puntiGiocatore = parolaGioc ? parolaGioc.length : 0;
+    const puntiCpu = migliore ? migliore.length : 0;
+
+    // classi per evidenziare il vincitore
+    const playerClass = puntiGioc > puntiCpu ? "score-badge score-player score-winner"
+                                             : "score-badge score-player";
+
+    const cpuClass    = puntiCpu > puntiGioc ? "score-badge score-cpu score-winner"
+                                             : "score-badge score-cpu";
+
+    resultEl.innerHTML =
+        `✔️ Parola valida!<br>
+         Tu: <span class="${playerClass}"> ${puntiGioc} </span>
+         — Computer: <span class="${cpuClass}"> ${puntiCpu} </span>`;
+}
+
+    /* --- JOLLY E COMPLIMENTI --- */
     if (parolaGiocatoreValida && migliore && parolaGioc.length === migliore.length) {
         mostraBannerComplimenti();
         assegnaJolly();
@@ -628,29 +652,34 @@ function mossaComputer() {
         applicaPenalitaJolly();
     }
 
-    const alternative = valide.slice(1);
+    /* --- RAGGRUPPIAMO LE PAROLE PER DIFFERENZA DI LUNGHEZZA --- */
+    const gruppi = {};
 
-    if (migliore) {
-        let html = `🤖 Computer gioca: <b>${migliore}</b> (+${migliore.length} punti)<br><br>`;
-        html += `<div class="suggestions-box"><b>Avresti potuto trovare anche…</b><br>`;
+    valide.forEach(p => {
+        const diff = p.length - lenG;
+        if (!gruppi[diff]) gruppi[diff] = [];
+        gruppi[diff].push(p);
+    });
 
-        const playerLen = parolaGioc ? parolaGioc.length : 0;
-        const filtrate = alternative.filter(w => w.length >= playerLen);
+    /* --- COSTRUIAMO I BOX --- */
+    let html = "";
 
-        const colorate = filtrate.map(w => {
-            if (w.length > playerLen) {
-                return `<span class="cpu-longer">${w}</span>`;
-            } else if (w.length === playerLen) {
-                return `<span class="cpu-equal">${w}</span>`;
-            } else {
-                return "";
-            }
-        }).filter(s => s !== "");
+Object.keys(gruppi).sort((a, b) => b - a).forEach(diff => {
 
-        html += colorate.join(", ");
-        html += `</div>`;
-        computerResultEl.innerHTML = html;
-    } else {
-        computerResultEl.innerText = "🤖 Nessuna parola trovata.";
-    }
+    if (diff < 0) return;  // mostra solo =, +1, +2, +3...
+
+    const parole = gruppi[diff];
+    const label = diff == 0 ? "=" : "+" + diff;
+
+    const diffClass = diff == 0 ? "eq" : "plus";
+
+    html += `
+        <div class="cpu-box ${diffClass}" onclick="this.classList.toggle('expanded')">
+            <span class="cpu-box-header">${label}</span>
+            <span class="cpu-box-content">${parole.join(", ")}</span>
+        </div>
+    `;
+});
+
+    computerResultEl.innerHTML = html;
 }
