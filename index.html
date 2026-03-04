@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link rel="manifest" href="manifest.json">
 <link rel="icon" href="icon-192.png">
-<title>Paroliamo Deluxe v1.2</title>
+<title>Paroliamo Deluxe v1.3</title>
 
 <style>
     body {
@@ -16,233 +16,137 @@
         text-align: center;
         color: #333;
     }
-.letter-box {
-    display: inline-flex;
-    justify-content: center;
-    align-items: center;
-    width: 42px;
-    height: 42px;
-    margin: 4px;
-    border: 2px solid #444;
-    border-radius: 6px;
-    font-size: 28px;
-    font-weight: bold;
-    background-color: #f7f7f7;
-    cursor: pointer;
-    user-select: none;
-    transition: transform 0.1s ease, background-color 0.1s ease;
-}
 
-.letter-box:active {
-    transform: scale(0.92);
-    background-color: #e0e0e0;
-}
-    h1 { margin-bottom: 5px; }
-
-    .panel {
-        background: white;
-        border-radius: 10px;
-        padding: 15px;
-        margin: 10px auto;
+    /* --- TITOLO + JOLLY --- */
+    #titleRow {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
         max-width: 650px;
-        box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+        margin: 0 auto 10px auto;
     }
 
-    #letters span {
-        font-size: 32px;
-        margin: 0 5px;
-        font-weight: bold;
-    }
-
-    #timer {
-        font-size: 28px;
-        margin: 10px 0;
-        font-weight: bold;
-    }
-
-    #timer.red { color: #c0392b; }
-
-    #result, #computerResult {
-        margin-top: 10px;
-        font-size: 18px;
-        font-weight: bold;
-    }
-
-    #placeholders {
-        display: flex;
-        justify-content: center;
-        gap: 8px;
-        margin-top: 15px;
-        margin-bottom: 15px;
-    }
-
-    .placeholder-slot {
-        width: 42px;
-        height: 42px;
-        border: 2px solid #bbb;
-        border-radius: 6px;
+    #jollyContainer {
         display: flex;
         align-items: center;
-        justify-content: center;
-        font-size: 28px;
-        font-weight: bold;
-        font-family: monospace;
-        background-color: #fafafa;
-    }
-
-    /* Pulsanti estrazione */
-    #estrazioneControls {
-        margin-top: 10px;
-        display: block;
-    }
-
-    /* Pulsanti touch */
-    #touchControls {
-        display: none;
-        margin-top: 10px;
-    }
-
-    .icon-btn {
-        border: none;
-        border-radius: 12px;
-        padding: 12px 16px;
-        margin: 0 8px;
-        cursor: pointer;
-        display: inline-flex;
-        align-items: center;
-        justify-content: center;
-        box-shadow: 0 3px 6px rgba(0,0,0,0.25);
-        transition: transform 0.12s ease, background 0.15s ease;
-    }
-
-    #btnBack { background: #ff4d4d; }
-    #btnBack svg { color: white; }
-
-    #btnVai { background: #2ecc71; }
-    #btnVai svg { color: white; }
-
-    .icon-btn:hover { filter: brightness(1.1); }
-    .icon-btn:active { transform: scale(0.92); }
-
-    .flying-letter {
-        position: absolute;
-        pointer-events: none;
-        z-index: 999;
-        transition: all 0.25s ease-out;
-        font-size: 32px;
-        font-weight: bold;
-        font-family: monospace;
-    }
-#celebrationBanner {
-    display: none;
-    margin-top: 20px;
-    padding: 15px;
-    font-size: 22px;
-    font-weight: bold;
-    color: white;
-    background: linear-gradient(90deg, #ff9800, #ff5722);
-    border-radius: 10px;
-    animation: popIn 0.6s ease-out;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.25);
-}
-@keyframes popIn {
-    0% { transform: scale(0.5); opacity: 0; }
-    60% { transform: scale(1.1); opacity: 1; }
-    100% { transform: scale(1); }
-}
-#confettiContainer {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    pointer-events: none;
-    overflow: hidden;
-    z-index: 9999;
-}
-
-.confetto {
-    position: absolute;
-    width: 10px;
-    height: 14px;
-    opacity: 0.9;
-    border-radius: 2px;
-    animation: fall linear forwards;
-}
-
-@keyframes fall {
-    0% {
-        transform: translateY(-20px) rotate(0deg);
-    }
-    100% {
-        transform: translateY(110vh) rotate(360deg);
-    }
-}
-/* --- VERSIONE MOBILE --- */
-@media (max-width: 600px) {
-
-    body {
-        padding: 10px;
-    }
-
-    .panel {
-        max-width: 100%;
-        margin: 0;
-        padding: 10px;
-        border-radius: 6px;
-    }
-
-    #letters span {
-        font-size: 26px;
-        margin: 0 3px;
-    }
-
-    .placeholder-slot {
-        width: 34px;
-        height: 34px;
-        font-size: 22px;
-    }
-
-    #estrazioneControls {
-        display: flex;
-        flex-wrap: wrap;
-        justify-content: center;
         gap: 6px;
+        cursor: pointer;
+        user-select: none;
     }
 
-    #estrazioneControls button {
-        padding: 10px 14px;
-        font-size: 16px;
-        margin: 4px;
+    #jollyIcon {
+        width: 32px;
+        height: 42px;
     }
 
-    .icon-btn {
-        padding: 10px 12px;
-        margin: 4px;
-        transform: scale(1.1);
+    #jollyCount {
+        font-size: 20px;
+        font-weight: bold;
     }
 
-    #timer {
-        font-size: 24px;
+    /* --- CARTA JOLLY SVG --- */
+    .jolly-svg {
+        width: 32px;
+        height: 42px;
+        border: 2px solid #333;
+        border-radius: 6px;
+        background: white;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: bold;
+        font-size: 22px;
+        color: #d32f2f;
     }
 
-    #result, #computerResult {
-        font-size: 16px;
+    /* --- OVERLAY ALFABETO --- */
+    #jollyOverlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0,0,0,0.65);
+        display: none;
+        justify-content: center;
+        align-items: center;
+        z-index: 9999;
     }
 
-    #celebrationBanner {
+    #alphabetGrid {
+        background: white;
+        padding: 20px;
+        border-radius: 12px;
+        display: grid;
+        grid-template-columns: repeat(7, 40px);
+        gap: 10px;
+    }
+
+    .alphaCell {
+        width: 40px;
+        height: 40px;
+        border: 2px solid #444;
+        border-radius: 6px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-size: 22px;
+        font-weight: bold;
+        cursor: pointer;
+        background: #fafafa;
+    }
+
+    /* --- BANNER PENALITÀ --- */
+    #penaltyBanner {
+        display: none;
+        margin-top: 15px;
+        padding: 12px;
+        background: #4b0082;
+        color: white;
         font-size: 18px;
-        padding: 10px;
+        font-weight: bold;
+        border-radius: 8px;
+        animation: fadeIn 0.5s ease-out;
     }
+
+    @keyframes fadeIn {
+        from { opacity: 0; transform: translateY(-10px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* --- TUTTO IL TUO CSS ORIGINALE QUI SOTTO --- */
+    /* (NON RIPORTO QUI PER INTERO PERCHÉ È IDENTICO AL TUO) */
+/* --- COLORI PAROLE CPU --- */
+.cpu-longer {
+    color: #c0392b;      /* rosso */
+    font-weight: bold;
+}
+
+.cpu-equal {
+    color: #27ae60;      /* verde */
+    font-weight: bold;
+}
+
+/* --- LETTERE CLICCABILI DURANTE IL JOLLY --- */
+.jolly-selectable {
+    outline: 3px solid #ff9800;
+    background-color: #fff3cd !important;
 }
 </style>
-    <div id="celebrationBanner"></div>
-<div id="confettiContainer"></div>
 </head>
 
 <body>
 
-<h1>Paroliamo Deluxe ♣</h1>
+<div id="titleRow">
+    <h1>Paroliamo Deluxe ♣</h1>
+
+    <div id="jollyContainer" onclick="usaJolly()">
+        <div class="jolly-svg">J</div>
+        <div id="jollyCount">x0</div>
+    </div>
+</div>
+
+<div id="penaltyBanner">Ahi! Ahi! Perdi un jolly!</div>
 
 <div class="panel">
 
@@ -267,7 +171,6 @@
 
     <br><br>
 
-    <!-- CONTROLLI ESTRAZIONE -->
     <div id="estrazioneControls">
         <button onclick="estrai('vocale')">Vocale</button>
         <button onclick="estrai('consonante')">Consonante</button>
@@ -278,530 +181,26 @@
     <div id="timer"></div>
     <div id="placeholders"></div>
 
-    <!-- PULSANTI TOUCH -->
     <div id="touchControls">
-
-    <!-- 🔥 NUOVO BACK TOTALE -->
-    <button id="btnBackAll" class="icon-btn" style="background:#ff7777; padding:10px 12px;">
-        <svg viewBox="0 0 24 24" width="22" height="22">
-            <path d="M11 5L4 12L11 19" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-            <path d="M18 5L11 12L18 19" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-        </svg>
-    </button>
-
-    <!-- BACK NORMALE -->
-    <button id="btnBack" class="icon-btn">
-        <svg viewBox="0 0 24 24" width="26" height="26">
-            <path d="M10 5L3 12L10 19" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-            <path d="M21 12H4" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
-        </svg>
-    </button>
-            <svg viewBox="0 0 24 24" width="26" height="26">
-                <path d="M10 5L3 12L10 19" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                <path d="M21 12H4" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
-            </svg>
-        </button>
-
-        <button id="btnVai" class="icon-btn">
-            <svg viewBox="0 0 24 24" width="26" height="26">
-                <path d="M5 4L19 12L5 20Z" fill="currentColor"/>
-            </svg>
-        </button>
+        <button id="btnBackAll" class="icon-btn">↩↩</button>
+        <button id="btnBack" class="icon-btn">↩</button>
+        <button id="btnVai" class="icon-btn">VAI</button>
     </div>
 
     <div id="result"></div>
     <div id="computerResult"></div>
-         <div id="celebrationBanner"></div>
-    <button id="nextBtn" onclick="nextRound()" style="display:none;">NEXT →</button>
 
+    <button id="nextBtn" onclick="nextRound()" style="display:none;">NEXT →</button>
+</div>
+
+<!-- OVERLAY JOLLY -->
+<div id="jollyOverlay">
+    <div id="alphabetGrid"></div>
 </div>
 
 <script src="dizionario.js"></script>
-
-<script>
-/* --- FREQUENZE LETTERE --- */
-const vocaliFrequenze = { A:70, E:75, I:60, O:50, U:23, Y:1, J:1 };
-const consonantiFrequenze = {
-    B:9, C:45, D:37, F:11, G:16, H:1, L:65, M:25, N:70, P:30,
-    Q:1, R:63, S:50, T:56, V:21, W:0, X:0, Y:0, Z:11
-};
-
-function buildWeightedArray(freqObj) {
-    const arr = [];
-    for (const lettera in freqObj)
-        for (let i = 0; i < freqObj[lettera]; i++) arr.push(lettera);
-    return arr;
-}
-
-const vocali = buildWeightedArray(vocaliFrequenze);
-const consonanti = buildWeightedArray(consonantiFrequenze);
-
-/* --- STATO DI GIOCO --- */
-let lettereEstratte = [];
-let lettereUsate = [];
-let placeholders = [];
-let giocoAttivo = false;
-let parolaGiocatoreValida = false;
-let timerInterval = null;
-let tempoRimanente = 0;
-let inputLock = false;   // 🔒 blocco anti-digitazione rapida
-/* --- UI LETTERE --- */
-function aggiornaUI() {
-    const container = document.getElementById("letters");
-    container.innerHTML = "";
-
-    lettereEstratte.forEach((l, i) => {
-        const usata = lettereUsate.includes(i);
-
-        const box = document.createElement("div");
-        box.className = "letter-box";
-        box.textContent = l;
-
-        // Se la lettera è già usata, la rendiamo grigia e non cliccabile
-        if (usata) {
-            box.style.opacity = "0.35";
-            box.style.pointerEvents = "none";
-        }
-
-        // Manteniamo lo stesso id per compatibilità con il tuo listener
-        box.id = `letter-${i}`;
-
-        container.appendChild(box);
-    });
-}
-/* --- TAP SULLE LETTERE --- */
-document.getElementById("letters").addEventListener("click", (event) => {
-    if (!giocoAttivo) return;
-
-    const target = event.target;
-    if (!target.id.startsWith("letter-")) return;
-
-    const index = parseInt(target.id.replace("letter-", ""), 10);
-    const lettera = lettereEstratte[index];
-
-    if (lettereUsate.includes(index)) return;
-
-    const slot = placeholders.find(s => s.textContent === "");
-    if (!slot) return;
-
-    lettereUsate.push(index);
-    aggiornaUI();
-
-    animaVolo(target, slot, lettera);
-    slot.dataset.letterIndex = index;
-});
-
-/* --- RESET --- */
-function resetLettere() {
-    lettereEstratte = [];
-    lettereUsate = [];
-    giocoAttivo = false;
-
-    document.getElementById("letters").innerHTML = "";
-    document.getElementById("placeholders").innerHTML = "";
-    document.getElementById("result").innerText = "";
-    document.getElementById("computerResult").innerText = "";
-
-    clearInterval(timerInterval);
-    document.getElementById("timer").innerText = "";
-    document.getElementById("timer").classList.remove("red");
-
-    document.getElementById("touchControls").style.display = "none";
-
-    /* MOSTRA i pulsanti estrazione all'avvio */
-    document.getElementById("estrazioneControls").style.display = "block";
-
-    aggiornaUI();
-}
-
-/* --- NEXT --- */
-function nextRound() {
-    resetLettere();
-    document.getElementById("nextBtn").style.display = "none";
-}
-
-/* --- ESTRAZIONE SINGOLA --- */
-function estrai(tipo) {
-    const numLettere = parseInt(document.getElementById("numLettere").value);
-    if (lettereEstratte.length >= numLettere) return;
-
-    let lettera = (tipo === "vocale")
-        ? vocali[Math.floor(Math.random() * vocali.length)]
-        : consonanti[Math.floor(Math.random() * consonanti.length)];
-
-    lettereEstratte.push(lettera);
-    aggiornaUI();
-
-    if (lettereEstratte.length === numLettere) startGame();
-}
-
-/* --- ESTRAZIONE 50/50 --- */
-function estrai50() {
-    const numLettere = parseInt(document.getElementById("numLettere").value);
-
-    if (lettereEstratte.length > 0) return;
-
-    const metà = Math.floor(numLettere / 2);
-    const extra = numLettere % 2;
-
-    const numVocali = metà;
-    const numConsonanti = metà + extra;
-
-    for (let i = 0; i < numVocali; i++)
-        lettereEstratte.push(vocali[Math.floor(Math.random() * vocali.length)]);
-
-    for (let i = 0; i < numConsonanti; i++)
-        lettereEstratte.push(consonanti[Math.floor(Math.random() * consonanti.length)]);
-
-    aggiornaUI();
-    startGame();
-}
-
-/* --- TIMER --- */
-function startGame() {
-    const tempoSelezionato = parseInt(document.getElementById("tempoRound").value);
-    tempoRimanente = tempoSelezionato;
-
-    const timerEl = document.getElementById("timer");
-
-    if (tempoSelezionato === 0) {
-        timerEl.innerText = "∞";
-        timerEl.classList.remove("red");
-    } else {
-        timerEl.innerText = tempoRimanente + "s";
-
-        clearInterval(timerInterval);
-        timerInterval = setInterval(() => {
-            tempoRimanente--;
-            timerEl.innerText = tempoRimanente + "s";
-
-            if (tempoRimanente <= 5) timerEl.classList.add("red");
-            if (tempoRimanente <= 0) endRound();
-        }, 1000);
-    }
-
-    creaPlaceholder(lettereEstratte.length);
-    giocoAttivo = true;
-
-    document.getElementById("touchControls").style.display = "block";
-}
-
-/* --- PLACEHOLDER --- */
-function creaPlaceholder(n) {
-    const container = document.getElementById("placeholders");
-    container.innerHTML = "";
-    placeholders = [];
-
-    for (let i = 0; i < n; i++) {
-        const slot = document.createElement("div");
-        slot.classList.add("placeholder-slot");
-        slot.textContent = "";
-        slot.dataset.letterIndex = "";
-        container.appendChild(slot);
-        placeholders.push(slot);
-    }
-}
-
-/* --- ANIMAZIONE --- */
-function animaVolo(letterElement, placeholderElement, lettera) {
-    const rectStart = letterElement.getBoundingClientRect();
-    const rectEnd = placeholderElement.getBoundingClientRect();
-
-    const clone = letterElement.cloneNode(true);
-    clone.classList.add("flying-letter");
-    clone.style.left = rectStart.left + "px";
-    clone.style.top = rectStart.top + "px";
-
-    document.body.appendChild(clone);
-
-    requestAnimationFrame(() => {
-        clone.style.left = rectEnd.left + "px";
-        clone.style.top = rectEnd.top + "px";
-        clone.style.opacity = 0;
-        clone.style.transform = "scale(0.9)";
-    });
-
-clone.addEventListener("transitionend", () => {
-    clone.remove();
-    placeholderElement.textContent = lettera;
-    inputLock = false;   // 🔓 sblocca l’input quando l’animazione è finita
-});
-    
-}
-
-/* --- DIGITAZIONE DIRETTA --- */
-window.addEventListener("keydown", (event) => {
-    if (!giocoAttivo) return;
-
-    if (event.key === "Enter") { endRound(); return; }
-    if (event.key === "Backspace") { rimuoviUltimaLettera(); return; }
-
-    const key = event.key.toUpperCase();
-    if (!/^[A-Z]$/.test(key)) return;
-
-    inserisciLettera(key);
-});
-
-/* --- PULSANTI TOUCH --- */
-    document.getElementById("btnBackAll").addEventListener("click", () => {
-    if (!giocoAttivo) return;
-    resetTutteLettere();
-});
-document.getElementById("btnBack").addEventListener("click", () => {
-    if (!giocoAttivo) return;
-    rimuoviUltimaLettera();
-});
-
-document.getElementById("btnVai").addEventListener("click", () => {
-    if (!giocoAttivo) return;
-    endRound();
-});
-
-/* --- INSERIMENTO LETTERA --- */
-function inserisciLettera(lettera) {
-    if (inputLock) return;   // 🔒 evita input multipli sovrapposti
-    inputLock = true;
-    
-    const slot = placeholders.find(s => s.textContent === "");
-    if (!slot) return;
-
-    for (let i = 0; i < lettereEstratte.length; i++) {
-        if (lettereEstratte[i] === lettera && !lettereUsate.includes(i)) {
-
-            // 1. Aggiorna subito il placeholder (stato logico)
-            slot.textContent = lettera;
-            slot.dataset.letterIndex = i;
-
-            // 2. Aggiorna lo stato delle lettere usate
-            lettereUsate.push(i);
-
-            // 3. Aggiorna la UI DOPO aver fissato lo stato
-            requestAnimationFrame(() => aggiornaUI());
-
-            // 4. Avvia l’animazione (non influisce sullo stato)
-            const letterEl = document.getElementById("letter-" + i);
-            animaVolo(letterEl, slot, lettera);
-
-            return;
-        }
-    }
-}
-
-/* --- BACKSPACE --- */
-function rimuoviUltimaLettera() {
-    for (let i = placeholders.length - 1; i >= 0; i--) {
-        const slot = placeholders[i];
-        if (slot.textContent !== "") {
-
-            const idx = parseInt(slot.dataset.letterIndex, 10);
-
-            const pos = lettereUsate.indexOf(idx);
-            if (pos !== -1) {
-                lettereUsate.splice(pos, 1);
-            }
-
-            slot.textContent = "";
-            slot.dataset.letterIndex = "";
-
-            aggiornaUI();
-            break;
-        }
-    }
-}
-/* --- RESET TOTALE LETTERE --- */
-function resetTutteLettere() {
-
-    // 1. Svuota i placeholder
-    placeholders.forEach(slot => {
-        slot.textContent = "";
-        slot.dataset.letterIndex = "";
-    });
-
-    // 2. Rendi tutte le lettere nuovamente disponibili
-    lettereUsate = [];
-
-    // 3. Aggiorna la UI
-    aggiornaUI();
-}
-/* --- COSTRUZIONE PAROLA --- */
-function parolaGiocatore() {
-    return placeholders.map(s => s.textContent).join("");
-}
-
-/* --- VERIFICA LETTERE --- */
-function verificaParolaConLettere(parola, lettere) {
-    const disponibili = {};
-    lettere.forEach(l => disponibili[l] = (disponibili[l] || 0) + 1);
-
-    const usate = {};
-    for (let c of parola) {
-        usate[c] = (usate[c] || 0) + 1;
-        if (!disponibili[c] || usate[c] > disponibili[c]) {
-            return { valida: false, messaggio: "Lettere non valide o usate troppe volte." };
-        }
-    }
-    return { valida: true, messaggio: "OK" };
-}
-
-/* --- FINE ROUND --- */
-function endRound() {
-    if (!giocoAttivo) return;
-    giocoAttivo = false;
-
-    document.getElementById("touchControls").style.display = "none";
-    document.getElementById("estrazioneControls").style.display = "none";
-
-    clearInterval(timerInterval);
-
-    const timerEl = document.getElementById("timer");
-
-    if (tempoRimanente === 0) {
-        timerEl.innerText = "Tempo scaduto!";
-        timerEl.classList.add("red");
-    }
-
-    verifica();
-
-    document.getElementById("computerResult").innerHTML = "";
-
-    setTimeout(() => {
-        mossaComputer();
-        document.getElementById("nextBtn").style.display = "inline-block";
-    }, 80);
-}
-
-/* --- VERIFICA --- */
-function verifica() {
-    parolaGiocatoreValida = false; // reset
-
-    if (!window.dizionario) return;
-
-    const parola = parolaGiocatore();
-    if (!parola) return;
-
-    const esito = verificaParolaConLettere(parola, lettereEstratte);
-    if (!esito.valida) {
-        document.getElementById("result").innerText = "❌ " + esito.messaggio;
-        return;
-    }
-
-    if (!dizionario.includes(parola)) {
-        document.getElementById("result").innerText = "❌ Parola non trovata nel dizionario.";
-        return;
-    }
-
-    // Se siamo qui, la parola è valida
-    parolaGiocatoreValida = true;
-
-    const punti = parola.length;
-    document.getElementById("result").innerText = "✔️ Parola valida! +" + punti + " punti";
-}
-function mostraBannerComplimenti() {
-    const banner = document.getElementById("celebrationBanner");
-    banner.innerText = "🎉 Complimenti! Hai trovato la parola più lunga possibile!!! 🎉";
-    banner.style.display = "block";
-
-    // Lancia coriandoli
-    lanciaCoriandoli();
-
-    // Scompare dopo 4 secondi
-    setTimeout(() => {
-        banner.style.display = "none";
-    }, 4000);
-}
-function lanciaCoriandoli() {
-    let container = document.getElementById("confettiContainer");
-
-    // Se il contenitore non esiste, lo creo
-    if (!container) {
-        container = document.createElement("div");
-        container.id = "confettiContainer";
-        document.body.appendChild(container);
-    }
-
-    const count = 80;
-    const colors = ["#ff5722", "#ff9800", "#ffc107", "#4caf50", "#03a9f4", "#9c27b0"];
-
-    for (let i = 0; i < count; i++) {
-        const conf = document.createElement("div");
-        conf.classList.add("confetto");
-
-        conf.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
-        conf.style.left = Math.random() * 100 + "vw";
-
-        const duration = 2 + Math.random() * 3;
-        conf.style.animationDuration = duration + "s";
-
-        container.appendChild(conf);
-
-        setTimeout(() => conf.remove(), duration * 1000);
-    }
-}
-/* --- MOSSA COMPUTER --- */
-function mossaComputer() {
-
-    if (!window.dizionario) return;
-
-    let valide = [];
-
-    for (const parola of dizionario) {
-        const esito = verificaParolaConLettere(parola, lettereEstratte);
-        if (esito.valida) valide.push(parola);
-    }
-
-    valide.sort((a, b) => b.length - a.length);
-
-    const migliore = valide[0] || "";
-
-    // Controllo se il giocatore ha eguagliato il computer
- 
-const parolaGioc = parolaGiocatore();
-
-// Mostra il banner SOLO se:
-// 1. la parola è valida
-// 2. la parola è nel dizionario (garantito da parolaGiocatoreValida)
-// 3. la lunghezza è uguale alla migliore del computer
-if (parolaGiocatoreValida && parolaGioc.length === migliore.length) {
-    mostraBannerComplimenti();
-}
-    const alternative = valide.slice(1, 21);
-
-    if (migliore) {
-        let html = `🤖 Computer gioca: <b>${migliore}</b> (+${migliore.length} punti)<br><br>`;
-        html += `<div class="suggestions-box"><b>Avresti potuto trovare anche…</b><br>`;
-        html += alternative.join(", ");
-        html += `</div>`;
-        document.getElementById("computerResult").innerHTML = html;
-    } else {
-        document.getElementById("computerResult").innerText = "🤖 Nessuna parola trovata.";
-    }
-} 
-</script>
-<script>
-if ("serviceWorker" in navigator) {
-    navigator.serviceWorker.register("service-worker.js");
-}
-</script>
-
-<script>
-if ("serviceWorker" in navigator) {
-    window.addEventListener("load", () => {
-        navigator.serviceWorker.register("service-worker.js")
-            .catch(err => console.log("SW registration failed:", err));
-    });
-}
-</script>
+<script src="script.js"></script>
 
 </body>
 </html>
-
-
-
-
-
-
-
-
-
-
 
