@@ -8,122 +8,178 @@
 <title>Paroliamo Deluxe v1.3</title>
 
 <style>
-    body {
-        font-family: Arial, sans-serif;
-        background: radial-gradient(circle at top, #fdfbfb, #ebedee);
-        margin: 0;
-        padding: 20px;
-        text-align: center;
-        color: #333;
-    }
 
-    /* --- TITOLO + JOLLY --- */
-    #titleRow {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        max-width: 650px;
-        margin: 0 auto 10px auto;
-    }
+/* --- STRUTTURA BASE --- */
+body {
+    font-family: Arial, sans-serif;
+    background: radial-gradient(circle at top, #fdfbfb, #ebedee);
+    margin: 0;
+    padding: 20px;
+    text-align: center;
+    color: #333;
+}
 
-    #jollyContainer {
-        display: flex;
-        align-items: center;
-        gap: 6px;
-        cursor: pointer;
-        user-select: none;
-    }
+/* --- TITOLO + JOLLY --- */
+#titleRow {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    max-width: 650px;
+    margin: 0 auto 10px auto;
+}
 
-    #jollyIcon {
-        width: 32px;
-        height: 42px;
-    }
+#jollyContainer {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    cursor: pointer;
+    user-select: none;
+}
 
-    #jollyCount {
-        font-size: 20px;
-        font-weight: bold;
-    }
+#jollyCount {
+    font-size: 20px;
+    font-weight: bold;
+}
 
-    /* --- CARTA JOLLY SVG --- */
-    .jolly-svg {
-        width: 32px;
-        height: 42px;
-        border: 2px solid #333;
-        border-radius: 6px;
-        background: white;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-weight: bold;
-        font-size: 22px;
-        color: #d32f2f;
-    }
+/* --- CARTA JOLLY SVG --- */
+.jolly-svg {
+    width: 32px;
+    height: 42px;
+    border: 2px solid #333;
+    border-radius: 6px;
+    background: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    font-size: 22px;
+    color: #d32f2f;
+}
 
-    /* --- OVERLAY ALFABETO --- */
-    #jollyOverlay {
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background: rgba(0,0,0,0.65);
-        display: none;
-        justify-content: center;
-        align-items: center;
-        z-index: 9999;
-    }
+/* --- PANNELLO PRINCIPALE --- */
+.panel {
+    background: white;
+    padding: 20px;
+    border-radius: 12px;
+    max-width: 650px;
+    margin: 0 auto;
+    box-shadow: 0 0 10px rgba(0,0,0,0.15);
+}
 
-    #alphabetGrid {
-        background: white;
-        padding: 20px;
-        border-radius: 12px;
-        display: grid;
-        grid-template-columns: repeat(7, 40px);
-        gap: 10px;
-    }
+/* --- LETTERE ESTRATTE --- */
+#letters {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 8px;
+    margin: 20px 0;
+}
 
-    .alphaCell {
-        width: 40px;
-        height: 40px;
-        border: 2px solid #444;
-        border-radius: 6px;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        font-size: 22px;
-        font-weight: bold;
-        cursor: pointer;
-        background: #fafafa;
-    }
+.letter-box {
+    width: 45px;
+    height: 45px;
+    border: 2px solid #333;
+    border-radius: 6px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 26px;
+    font-weight: bold;
+    background: #fff;
+    cursor: pointer;
+    transition: transform 0.15s;
+}
 
-    /* --- BANNER PENALITÀ --- */
-    #penaltyBanner {
-        display: none;
-        margin-top: 15px;
-        padding: 12px;
-        background: #4b0082;
-        color: white;
-        font-size: 18px;
-        font-weight: bold;
-        border-radius: 8px;
-        animation: fadeIn 0.5s ease-out;
-    }
+.letter-box:active {
+    transform: scale(0.9);
+}
 
-    @keyframes fadeIn {
-        from { opacity: 0; transform: translateY(-10px); }
-        to { opacity: 1; transform: translateY(0); }
-    }
+/* --- PLACEHOLDER --- */
+#placeholders {
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+    margin-bottom: 20px;
+}
 
-    /* --- TUTTO IL TUO CSS ORIGINALE QUI SOTTO --- */
-    /* (NON RIPORTO QUI PER INTERO PERCHÉ È IDENTICO AL TUO) */
+.placeholder-slot {
+    width: 45px;
+    height: 45px;
+    border: 2px dashed #666;
+    border-radius: 6px;
+    font-size: 26px;
+    font-weight: bold;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* --- TIMER --- */
+#timer {
+    font-size: 28px;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+#timer.red {
+    color: red;
+}
+
+/* --- PULSANTI TOUCH --- */
+#touchControls {
+    display: none;
+    margin-bottom: 15px;
+}
+
+.icon-btn {
+    font-size: 22px;
+    padding: 10px 18px;
+    margin: 0 5px;
+    border-radius: 8px;
+    border: none;
+    background: #1976d2;
+    color: white;
+    cursor: pointer;
+}
+
+.icon-btn:active {
+    transform: scale(0.95);
+}
+
+/* --- ANIMAZIONE LETTERA VOLANTE --- */
+.flying-letter {
+    position: fixed;
+    z-index: 9999;
+    transition: all 0.35s ease-out;
+    pointer-events: none;
+}
+
+/* --- RISULTATI --- */
+#result {
+    font-size: 20px;
+    margin-top: 10px;
+}
+
+#computerResult {
+    margin-top: 20px;
+    font-size: 18px;
+}
+
+.suggestions-box {
+    margin-top: 10px;
+    padding: 10px;
+    background: #f7f7f7;
+    border-radius: 8px;
+}
+
 /* --- COLORI PAROLE CPU --- */
 .cpu-longer {
-    color: #c0392b;      /* rosso */
+    color: #c0392b;
     font-weight: bold;
 }
 
 .cpu-equal {
-    color: #27ae60;      /* verde */
+    color: #27ae60;
     font-weight: bold;
 }
 
@@ -132,6 +188,88 @@
     outline: 3px solid #ff9800;
     background-color: #fff3cd !important;
 }
+
+/* --- OVERLAY JOLLY --- */
+#jollyOverlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.65);
+    display: none;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+}
+
+#alphabetGrid {
+    background: white;
+    padding: 20px;
+    border-radius: 12px;
+    display: grid;
+    grid-template-columns: repeat(7, 40px);
+    gap: 10px;
+}
+
+.alphaCell {
+    width: 40px;
+    height: 40px;
+    border: 2px solid #444;
+    border-radius: 6px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 22px;
+    font-weight: bold;
+    cursor: pointer;
+    background: #fafafa;
+}
+
+/* --- BANNER PENALITÀ --- */
+#penaltyBanner {
+    display: none;
+    margin-top: 15px;
+    padding: 12px;
+    background: #4b0082;
+    color: white;
+    font-size: 18px;
+    font-weight: bold;
+    border-radius: 8px;
+    animation: fadeIn 0.5s ease-out;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* --- CORIANDOLI --- */
+#confettiContainer {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    overflow: hidden;
+    z-index: 9999;
+}
+
+.confetto {
+    position: absolute;
+    width: 10px;
+    height: 10px;
+    opacity: 0.9;
+    animation: fall linear forwards;
+}
+
+@keyframes fall {
+    from { transform: translateY(-10vh) rotate(0deg); }
+    to { transform: translateY(110vh) rotate(360deg); }
+}
+
+
 </style>
 </head>
 
