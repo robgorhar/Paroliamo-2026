@@ -9,7 +9,150 @@
 
 <style>
 
-/* --- BOX COMPATTI PER LE PAROLE DEL COMPUTER --- */
+/* --- ANIMAZIONE TEMPO SCADUTO --- */
+#timeExpiredAnimation {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    display: none;
+    z-index: 99999;
+}
+
+#timeExpiredAnimation .line {
+    position: absolute;
+    top: 50%;
+    height: 6px;
+    background: red;
+    width: 40%;
+    transform: translateY(-50%);
+    opacity: 0;
+}
+
+#timeExpiredAnimation .line.left {
+    left: -40%;
+}
+
+#timeExpiredAnimation .line.right {
+    right: -40%;
+}
+
+#timeExpiredAnimation .dot {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0px;
+    height: 0px;
+    background: red;
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+    opacity: 0;
+}
+
+/* --- TIMER CON LINEE E BOLLA --- */
+#timer {
+    position: relative;
+    width: 120px;
+    height: 40px;
+    font-size: 28px;
+    font-weight: bold;
+    text-align: center;
+    line-height: 40px;
+    margin: 0 auto;
+}
+
+/* linee rosse */
+.timer-line {
+    position: absolute;
+    top: 50%;
+    width: 0;
+    height: 4px;
+    background: red;
+    transform: translateY(-50%);
+    opacity: 0;
+}
+
+.timer-line.left {
+    left: 0;
+}
+
+.timer-line.right {
+    right: 0;
+}
+
+/* bolla centrale */
+.timer-bubble {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0;
+    height: 0;
+    background: red;
+    border-radius: 50%;
+    transform: translate(-50%, -50%) scale(0);
+    opacity: 0;
+}
+
+/* animazioni */
+@keyframes lineGrowLeft {
+    0%   { width: 0; opacity: 1; }
+    100% { width: 50%; opacity: 1; }
+}
+
+@keyframes lineGrowRight {
+    0%   { width: 0; opacity: 1; }
+    100% { width: 50%; opacity: 1; }
+}
+
+@keyframes bubblePop {
+    0%   { transform: translate(-50%, -50%) scale(0); opacity: 1; }
+    50%  { transform: translate(-50%, -50%) scale(1.4); opacity: 1; }
+    100% { transform: translate(-50%, -50%) scale(1); opacity: 1; }
+}
+
+/* classe che attiva l’effetto */
+.timer-finale .timer-line.left {
+    animation: lineGrowLeft 0.25s forwards;
+}
+
+.timer-finale .timer-line.right {
+    animation: lineGrowRight 0.25s forwards;
+}
+
+.timer-finale .timer-bubble {
+    animation: bubblePop 0.35s 0.25s forwards;
+}
+
+/* --- ANIMAZIONI --- */
+@keyframes lineInLeft {
+    0%   { left: -40%; opacity: 1; }
+    100% { left: 0; opacity: 1; }
+}
+
+@keyframes lineInRight {
+    0%   { right: -40%; opacity: 1; }
+    100% { right: 0; opacity: 1; }
+}
+
+@keyframes dotPop {
+    0%   { width: 0; height: 0; opacity: 1; }
+    50%  { width: 30px; height: 30px; opacity: 1; }
+    100% { width: 18px; height: 18px; opacity: 1; }
+}
+
+#timeExpiredAnimation.active .line.left {
+    animation: lineInLeft 0.25s forwards;
+}
+
+#timeExpiredAnimation.active .line.right {
+    animation: lineInRight 0.25s forwards;
+}
+
+#timeExpiredAnimation.active .dot {
+    animation: dotPop 0.35s 0.25s forwards;
+}
 
 /* --- BOX COMPATTI PER LE PAROLE DEL COMPUTER --- */
 .cpu-box {
@@ -362,6 +505,7 @@
 </head>
 
 <body>
+
 <div id="celebrationBanner" style="display:none;"></div>
 <div id="confettiContainer"></div>
 <div id="titleRow">
@@ -405,8 +549,21 @@
     </div>
 
     <div id="letters"></div>
-    <div id="timer"></div>
-    <div id="placeholders"></div>
+
+<div id="timer">
+    <div class="timer-line left"></div>
+    <div class="timer-line right"></div>
+    <div class="timer-bubble"></div>
+</div>
+
+<div id="timeExpiredAnimation">
+    <div class="line left"></div>
+    <div class="line right"></div>
+    <div class="dot"></div>
+</div>
+
+<div id="placeholders"></div>
+
 
     <div id="touchControls">
         <button id="btnBackAll" class="icon-btn">↩↩</button>
