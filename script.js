@@ -122,6 +122,41 @@ function aggiornaUI() {
     });
 }
 
+function mostraTempoScaduto() {
+    const anim = document.getElementById("timeExpiredAnimation");
+    const left = anim.querySelector(".line.left");
+    const right = anim.querySelector(".line.right");
+    const dot = anim.querySelector(".dot");
+
+    anim.style.display = "block";
+
+    // reset
+    left.style.animation = "";
+    right.style.animation = "";
+    dot.style.animation = "";
+
+    setTimeout(() => {
+        left.style.animation = "lineInLeft 0.6s ease-out forwards";
+        right.style.animation = "lineInRight 0.6s ease-out forwards";
+    }, 10);
+
+    // fase 2: restringono
+    setTimeout(() => {
+        left.style.animation = "mergeLines 0.25s ease-out forwards";
+        right.style.animation = "mergeLines 0.25s ease-out forwards";
+    }, 600);
+
+    // fase 3: pallino
+    setTimeout(() => {
+        dot.style.animation = "dotPop 0.35s ease-out forwards";
+    }, 850);
+
+    // scomparsa dopo 1.8s
+    setTimeout(() => {
+        anim.style.display = "none";
+    }, 1800);
+}
+
 /* --- CLICK SULLE LETTERE --- */
 function onLetterClick(event) {
     if (!giocoAttivo) return;
@@ -233,8 +268,7 @@ function startGame() {
         timerInterval = setInterval(() => {
             tempoRimanente--;
             timerEl.innerText = tempoRimanente + "s";
-
-            if (tempoRimanente <= 5) timerEl.classList.add("red");
+       if (tempoRimanente <= 5) timerEl.classList.add("red");
             if (tempoRimanente <= 0) endRound();
         }, 1000);
     }
@@ -389,10 +423,17 @@ function endRound() {
 
     clearInterval(timerInterval);
 
-    if (tempoRimanente === 0) {
-        timerEl.innerText = "Tempo scaduto!";
-        timerEl.classList.add("red");
-    }
+if (tempoRimanente === 0) {
+    timerEl.innerText = ""; // niente 0s
+    document.getElementById("timeExpiredAnimation").style.display = "block";
+    document.getElementById("timeExpiredAnimation").classList.add("active");
+
+    // nasconde l’animazione dopo 1 secondo
+    setTimeout(() => {
+        document.getElementById("timeExpiredAnimation").style.display = "none";
+        document.getElementById("timeExpiredAnimation").classList.remove("active");
+    }, 1000);
+}
 
     verifica();
 
@@ -636,7 +677,7 @@ if (parolaGiocatoreValida) {
     const cpuClass    = puntiCpu > puntiGioc ? "score-badge score-cpu score-winner"
                                              : "score-badge score-cpu";
 
-    resultEl.innerHTML =
+resultEl.innerHTML =
         `✔️ Parola valida!<br>
          Tu: <span class="${playerClass}"> ${puntiGioc} </span>
          — Computer: <span class="${cpuClass}"> ${puntiCpu} </span>`;
