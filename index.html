@@ -9,26 +9,7 @@
 
 <style>
 
-#jolly-counter {
-    font-size: 1.4rem;
-    font-weight: bold;
-    margin-left: 8px;
-    color: #ffcc00;
-    text-shadow: 1px 1px 2px #000;
-    user-select: none;
-}
 
-#jolly-btn {
-    width: 60px;
-    height: 60px;
-    padding: 0;
-    border: none;
-    background: none;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-   cursor: pointer;
-}
 #jolly-help-banner {
     position: fixed;
     bottom: 20%;
@@ -60,6 +41,26 @@
     height: 60px;
     object-fit: contain;
     transform: rotate(12deg);
+}
+
+#jolly-btn {
+    position: absolute;
+    right: 80px;   /* distanza dal bordo destro */
+    top: 12px;     /* distanza dall’alto: regola questo valore */
+    z-index: 10;
+}
+#jolly-counter {
+    font-size: 1.4rem;
+    font-weight: bold;
+    color: #ffcc00;
+    text-shadow: 1px 1px 2px #000;
+    user-select: none;
+    position: absolute;
+    right: 115px;   /* stessa distanza del jolly */
+    top: 61px;    /* sotto il jolly: regola questo valore */
+    font-size: 1.2rem;
+    font-weight: bold;
+    z-index: 10;
 }
 
 /* --- ANIMAZIONE TEMPO SCADUTO --- */
@@ -330,24 +331,25 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    max-width: 650px;
+    max-width: 600px;
     margin: 0 auto 10px auto;
     gap: 12px;
 }
 /* --- TITOLO + SOTTOTITOLO --- */
 #titleRow h1 {
     margin: 0;
-    font-size: 42px; /* puoi ridurre a 36 se sul telefono è troppo grande */
+    font-size: 36px; /* puoi ridurre a 36 se sul telefono è troppo grande */
     flex: 1;
     text-align: center;
 }
 
 #subtitle {
-    font-size: 12px;
+    font-size: 10px;
     color: #444;
     opacity: 0.8;
-    margin-top: -6px;
-    text-align: center;
+    margin-top: -8px;
+    margin-bottom: 2px;
+    text-align: left;
     width: 100%;
     letter-spacing: 0.4px;
 }
