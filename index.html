@@ -334,6 +334,23 @@
     margin: 0 auto 10px auto;
     gap: 12px;
 }
+/* --- TITOLO + SOTTOTITOLO --- */
+#titleRow h1 {
+    margin: 0;
+    font-size: 42px; /* puoi ridurre a 36 se sul telefono è troppo grande */
+    flex: 1;
+    text-align: center;
+}
+
+#subtitle {
+    font-size: 12px;
+    color: #444;
+    opacity: 0.8;
+    margin-top: -6px;
+    text-align: center;
+    width: 100%;
+    letter-spacing: 0.4px;
+}
 
 #linea-sx, #linea-dx {
     position: fixed;
@@ -570,18 +587,19 @@
     <div id="celebrationBanner" style="display:none;"></div>
     <div id="confettiContainer"></div>
 
-    <div id="titleRow">
-        <h1>Paroliamo 2026</h1>
+<div id="titleRow">
+    <h1>Paroliamo</h1>
+    <div id="subtitle">by Roberto Lodi 2026</div>
 
-        <button id="jolly-btn" onclick="usaJolly()">
-            <img src="img/jolly.png" id="jolly-icon">
-        </button>
-        <span id="jolly-counter">x0</span>
+    <button id="jolly-btn" onclick="usaJolly()">
+        <img src="img/jolly.png" id="jolly-icon">
+    </button>
+    <span id="jolly-counter">x0</span>
 
-        <div id="jolly-help-banner">
-            Cliccando sul Jolly puoi scegliere una lettera nuova da sostituire a una di quelle estratte.
-        </div>
+    <div id="jolly-help-banner">
+        Cliccando sul Jolly puoi scegliere una lettera nuova da sostituire a una di quelle estratte.
     </div>
+</div>
 
 
 <div id="penaltyBanner">Ahi! Ahi! Perdi un jolly!</div>
