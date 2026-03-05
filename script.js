@@ -34,8 +34,8 @@ let timerInPausa = false;
 /* --- RIFERIMENTI DOM --- */
 let lettersContainer, placeholdersContainer, resultEl, computerResultEl,
     timerEl, estrazioneControlsEl, touchControlsEl, nextBtnEl,
-    jollyContainerEl, jollyCountEl, jollyOverlayEl, alphabetGridEl,
-    penaltyBannerEl, celebrationBannerEl, confettiContainerEl;
+    jollyOverlayEl, alphabetGridEl, penaltyBannerEl,
+    celebrationBannerEl, confettiContainerEl;
 
 window.addEventListener("DOMContentLoaded", () => {
     lettersContainer = document.getElementById("letters");
@@ -46,55 +46,32 @@ window.addEventListener("DOMContentLoaded", () => {
     estrazioneControlsEl = document.getElementById("estrazioneControls");
     touchControlsEl = document.getElementById("touchControls");
     nextBtnEl = document.getElementById("nextBtn");
-    jollyContainerEl = document.getElementById("jollyContainer");
-    jollyCountEl = document.getElementById("jollyCount");
     jollyOverlayEl = document.getElementById("jollyOverlay");
     alphabetGridEl = document.getElementById("alphabetGrid");
     penaltyBannerEl = document.getElementById("penaltyBanner");
     celebrationBannerEl = document.getElementById("celebrationBanner");
     confettiContainerEl = document.getElementById("confettiContainer");
 
-    /* CLICK LETTERE */
+    document.getElementById("jolly-btn").addEventListener("click", usaJolly);
+
     lettersContainer.addEventListener("click", onLetterClick);
 
-    /* PULSANTI TOUCH */
     const btnBackAll = document.getElementById("btnBackAll");
     const btnBack = document.getElementById("btnBack");
     const btnVai = document.getElementById("btnVai");
 
-    if (btnBackAll) {
-        btnBackAll.addEventListener("click", () => {
-            if (!giocoAttivo) return;
-            resetTutteLettere();
-        });
-    }
+    if (btnBackAll) btnBackAll.addEventListener("click", () => { if (giocoAttivo) resetTutteLettere(); });
+    if (btnBack) btnBack.addEventListener("click", () => { if (giocoAttivo) rimuoviUltimaLettera(); });
+    if (btnVai) btnVai.addEventListener("click", () => { if (giocoAttivo) endRound(); });
 
-    if (btnBack) {
-        btnBack.addEventListener("click", () => {
-            if (!giocoAttivo) return;
-            rimuoviUltimaLettera();
-        });
-    }
-
-    if (btnVai) {
-        btnVai.addEventListener("click", () => {
-            if (!giocoAttivo) return;
-            endRound();
-        });
-    }
-
-    /* DIGITAZIONE DIRETTA */
     window.addEventListener("keydown", onKeyDown);
 
-    /* SERVICE WORKER */
     if ("serviceWorker" in navigator) {
         window.addEventListener("load", () => {
             navigator.serviceWorker.register("service-worker.js")
                 .catch(err => console.log("SW registration failed:", err));
         });
     }
-
-    aggiornaUIJolly();
 });
 
 /* --- UI LETTERE --- */
@@ -122,42 +99,7 @@ function aggiornaUI() {
     });
 }
 
-function mostraTempoScaduto() {
-    const anim = document.getElementById("timeExpiredAnimation");
-    const left = anim.querySelector(".line.left");
-    const right = anim.querySelector(".line.right");
-    const dot = anim.querySelector(".dot");
-
-    anim.style.display = "block";
-
-    // reset
-    left.style.animation = "";
-    right.style.animation = "";
-    dot.style.animation = "";
-
-    setTimeout(() => {
-        left.style.animation = "lineInLeft 0.6s ease-out forwards";
-        right.style.animation = "lineInRight 0.6s ease-out forwards";
-    }, 10);
-
-    // fase 2: restringono
-    setTimeout(() => {
-        left.style.animation = "mergeLines 0.25s ease-out forwards";
-        right.style.animation = "mergeLines 0.25s ease-out forwards";
-    }, 600);
-
-    // fase 3: pallino
-    setTimeout(() => {
-        dot.style.animation = "dotPop 0.35s ease-out forwards";
-    }, 850);
-
-    // scomparsa dopo 1.8s
-    setTimeout(() => {
-        anim.style.display = "none";
-    }, 1800);
-}
-
-/* --- CLICK SULLE LETTERE --- */
+/* --- CLICK LETTERE --- */
 function onLetterClick(event) {
     if (!giocoAttivo) return;
 
@@ -217,7 +159,7 @@ function nextRound() {
     nextBtnEl.style.display = "none";
 }
 
-/* --- ESTRAZIONE SINGOLA --- */
+/* --- ESTRAZIONE --- */
 function estrai(tipo) {
     const numLettere = parseInt(document.getElementById("numLettere").value);
     if (lettereEstratte.length >= numLettere) return;
@@ -232,7 +174,7 @@ function estrai(tipo) {
     if (lettereEstratte.length === numLettere) startGame();
 }
 
-/* --- ESTRAZIONE 50/50 --- */
+
 function estrai50() {
     const numLettere = parseInt(document.getElementById("numLettere").value);
     if (lettereEstratte.length > 0) return;
@@ -268,7 +210,7 @@ function startGame() {
         timerInterval = setInterval(() => {
             tempoRimanente--;
             timerEl.innerText = tempoRimanente + "s";
-       if (tempoRimanente <= 5) timerEl.classList.add("red");
+            if (tempoRimanente <= 5) timerEl.classList.add("red");
             if (tempoRimanente <= 0) endRound();
         }, 1000);
     }
@@ -293,7 +235,7 @@ function creaPlaceholder(n) {
     }
 }
 
-/* --- ANIMAZIONE --- */
+/* --- ANIMAZIONE LETTERA --- */
 function animaVolo(letterElement, placeholderElement, lettera) {
     const rectStart = letterElement.getBoundingClientRect();
     const rectEnd = placeholderElement.getBoundingClientRect();
@@ -319,7 +261,7 @@ function animaVolo(letterElement, placeholderElement, lettera) {
     });
 }
 
-/* --- DIGITAZIONE DIRETTA --- */
+/* --- DIGITAZIONE --- */
 function onKeyDown(event) {
     if (!giocoAttivo) return;
 
@@ -382,7 +324,7 @@ function rimuoviUltimaLettera() {
     }
 }
 
-/* --- RESET TOTALE LETTERE --- */
+/* --- RESET TOTALE --- */
 function resetTutteLettere() {
     placeholders.forEach(slot => {
         slot.textContent = "";
@@ -423,17 +365,17 @@ function endRound() {
 
     clearInterval(timerInterval);
 
-if (tempoRimanente === 0) {
-    timerEl.innerText = ""; // niente 0s
-    document.getElementById("timeExpiredAnimation").style.display = "block";
-    document.getElementById("timeExpiredAnimation").classList.add("active");
+    if (tempoRimanente === 0) {
+        timerEl.innerText = "";
+        const anim = document.getElementById("timeExpiredAnimation");
+        anim.style.display = "block";
+        anim.classList.add("active");
 
-    // nasconde l’animazione dopo 1 secondo
-    setTimeout(() => {
-        document.getElementById("timeExpiredAnimation").style.display = "none";
-        document.getElementById("timeExpiredAnimation").classList.remove("active");
-    }, 1000);
-}
+        setTimeout(() => {
+            anim.style.display = "none";
+            anim.classList.remove("active");
+        }, 1000);
+    }
 
     verifica();
 
@@ -464,21 +406,21 @@ function verifica() {
         resultEl.innerText = "❌ Parola non trovata nel dizionario.";
         return;
     }
-// Se siamo qui, la parola è valida
-parolaGiocatoreValida = true;
 
-// per ora non scriviamo ancora il punteggio completo,
-// lo aggiorneremo dopo in mossaComputer()
-document.getElementById("result").innerText = "✔️ Parola valida!";
-
+    parolaGiocatoreValida = true;
+    resultEl.innerText = "✔️ Parola valida!";
 }
 
 /* --- BANNER COMPLIMENTI --- */
 function mostraBannerComplimenti() {
-    if (!celebrationBannerEl) return;
-    celebrationBannerEl.innerText = "🎉 Complimenti! Hai trovato la parola più lunga possibile!!! 🎉";
-    celebrationBannerEl.style.display = "block";
+    const banner = document.getElementById("complimenti-banner");
+    banner.classList.add("show");
 
+    setTimeout(() => {
+        banner.classList.remove("show");
+    }, 2500);
+
+    celebrationBannerEl.style.display = "block";
     lanciaCoriandoli();
 
     setTimeout(() => {
@@ -516,21 +458,6 @@ function lanciaCoriandoli() {
     }
 }
 
-/* --- JOLLY: UI --- */
-function aggiornaUIJolly() {
-    if (!jollyContainerEl || !jollyCountEl) return;
-
-    if (jollyCount <= 0) {
-        jollyContainerEl.style.opacity = "0.3";
-        jollyContainerEl.style.pointerEvents = "none";
-        jollyCountEl.textContent = "x0";
-    } else {
-        jollyContainerEl.style.opacity = "1";
-        jollyContainerEl.style.pointerEvents = "auto";
-        jollyCountEl.textContent = "x" + jollyCount;
-    }
-}
-
 /* --- JOLLY: OTTENIMENTO --- */
 function assegnaJolly() {
     jollyCount++;
@@ -539,9 +466,13 @@ function assegnaJolly() {
 
 /* --- JOLLY: USO --- */
 function usaJolly() {
-    if (!giocoAttivo) return;
+    // Se non ci sono lettere estratte → mostra banner informativo
+    if (lettereEstratte.length === 0) {
+        mostraJollyHelp();
+        return;
+    }
+
     if (jollyCount <= 0) return;
-    if (!lettereEstratte || lettereEstratte.length === 0) return;
     if (jollyInUso) return;
 
     const tempoSelezionato = parseInt(document.getElementById("tempoRound").value);
@@ -558,10 +489,9 @@ function usaJolly() {
     evidenziaLetterePerJolly();
 }
 
+
 /* --- OVERLAY JOLLY --- */
 function mostraOverlayJolly() {
-    if (!jollyOverlayEl || !alphabetGridEl) return;
-
     jollyOverlayEl.style.display = "flex";
     alphabetGridEl.innerHTML = "";
 
@@ -576,7 +506,6 @@ function mostraOverlayJolly() {
 }
 
 function nascondiOverlayJolly() {
-    if (!jollyOverlayEl) return;
     jollyOverlayEl.style.display = "none";
 }
 
@@ -586,25 +515,46 @@ function selezionaLetteraJolly(lettera) {
     nascondiOverlayJolly();
 }
 
-/* --- EVIDENZIA LETTERE ESTRATTE --- */
+/* --- EVIDENZIA LETTERE --- */
 function evidenziaLetterePerJolly() {
     aggiornaUI();
 }
+
+/* --- AGGIORNA CONTATORE JOLLY --- */
+function aggiornaUIJolly() {
+    const counter = document.getElementById("jolly-counter");
+    if (counter) counter.textContent = "x" + jollyCount;
+}
+
+function mostraJollyHelp() {
+    const banner = document.getElementById("jolly-help-banner");
+    if (!banner) return;
+
+    banner.classList.add("show");
+
+    // Chiudi cliccando sul banner
+    banner.onclick = () => {
+        banner.classList.remove("show");
+    };
+
+    // Chiudi automaticamente dopo 3 secondi
+    setTimeout(() => {
+        banner.classList.remove("show");
+    }, 3000);
+}
+
 
 /* --- APPLICA SOSTITUZIONE JOLLY --- */
 function applicaSostituzioneJolly(index) {
     if (!jollyInUso) return;
     if (!letteraJollyScelta) return;
-
     if (index < 0 || index >= lettereEstratte.length) return;
 
     lettereEstratte[index] = letteraJollyScelta;
 
     placeholders.forEach(slot => {
         const idx = parseInt(slot.dataset.letterIndex || "-1", 10);
-        if (idx === index) {
-            slot.textContent = letteraJollyScelta;
-        }
+        if (idx === index) slot.textContent = letteraJollyScelta;
     });
 
     jollyCount--;
@@ -612,8 +562,7 @@ function applicaSostituzioneJolly(index) {
     aggiornaUIJolly();
 
     jollyInUso = false;
-    letteraJollyScelta = null;
-
+    letteraJollyScelta = null
     const tempoSelezionato = parseInt(document.getElementById("tempoRound").value);
     if (tempoSelezionato !== 0 && timerInPausa) {
         timerInPausa = false;
@@ -645,8 +594,7 @@ function applicaPenalitaJolly() {
     aggiornaUIJolly();
     mostraPenaltyBanner();
 }
-
-/* --- MOSSA COMPUTER (versione con box grafici) --- */
+/* --- MOSSA COMPUTER --- */
 function mossaComputer() {
     if (!window.dizionario) return;
 
@@ -662,28 +610,29 @@ function mossaComputer() {
     const migliore = valide[0] || "";
     const parolaGioc = parolaGiocatore();
     const lenG = parolaGioc ? parolaGioc.length : 0;
-const puntiGioc = lenG;
-const puntiCpu = migliore ? migliore.length : 0;
 
-if (parolaGiocatoreValida) {
+    let puntiGioc = lenG;
+    let puntiCpu = migliore ? migliore.length : 0;
 
-    const puntiGioc = puntiGiocatore = parolaGioc ? parolaGioc.length : 0;
-    const puntiCpu = migliore ? migliore.length : 0;
+    if (parolaGiocatoreValida) {
 
-    // classi per evidenziare il vincitore
-    const playerClass = puntiGioc > puntiCpu ? "score-badge score-player score-winner"
-                                             : "score-badge score-player";
+        puntiGioc = parolaGioc.length;
+        puntiCpu = migliore ? migliore.length : 0;
 
-    const cpuClass    = puntiCpu > puntiGioc ? "score-badge score-cpu score-winner"
-                                             : "score-badge score-cpu";
+        const playerClass = puntiGioc > puntiCpu
+            ? "score-badge score-player score-winner"
+            : "score-badge score-player";
 
-resultEl.innerHTML =
-        `✔️ Parola valida!<br>
-         Tu: <span class="${playerClass}"> ${puntiGioc} </span>
-         — Computer: <span class="${cpuClass}"> ${puntiCpu} </span>`;
-}
+        const cpuClass = puntiCpu > puntiGioc
+            ? "score-badge score-cpu score-winner"
+            : "score-badge score-cpu";
 
-    /* --- JOLLY E COMPLIMENTI --- */
+        resultEl.innerHTML =
+            `✔️ Parola valida!<br>
+             Tu: <span class="${playerClass}"> ${puntiGioc} </span>
+             — Computer: <span class="${cpuClass}"> ${puntiCpu} </span>`;
+    }
+
     if (parolaGiocatoreValida && migliore && parolaGioc.length === migliore.length) {
         mostraBannerComplimenti();
         assegnaJolly();
@@ -693,7 +642,6 @@ resultEl.innerHTML =
         applicaPenalitaJolly();
     }
 
-    /* --- RAGGRUPPIAMO LE PAROLE PER DIFFERENZA DI LUNGHEZZA --- */
     const gruppi = {};
 
     valide.forEach(p => {
@@ -702,25 +650,24 @@ resultEl.innerHTML =
         gruppi[diff].push(p);
     });
 
-    /* --- COSTRUIAMO I BOX --- */
     let html = "";
 
-Object.keys(gruppi).sort((a, b) => b - a).forEach(diff => {
+    Object.keys(gruppi).sort((a, b) => b - a).forEach(diff => {
+        if (diff < 0) return;
 
-    if (diff < 0) return;  // mostra solo =, +1, +2, +3...
+        const parole = gruppi[diff];
+        const label = diff == 0 ? "=" : "+" + diff;
+        const diffClass = diff == 0 ? "eq" : "plus";
 
-    const parole = gruppi[diff];
-    const label = diff == 0 ? "=" : "+" + diff;
-
-    const diffClass = diff == 0 ? "eq" : "plus";
-
-    html += `
-        <div class="cpu-box ${diffClass}" onclick="this.classList.toggle('expanded')">
-            <span class="cpu-box-header">${label}</span>
-            <span class="cpu-box-content">${parole.join(", ")}</span>
-        </div>
-    `;
-});
+        html += `
+            <div class="cpu-box ${diffClass}" onclick="this.classList.toggle('expanded')">
+                <span class="cpu-box-header">${label}</span>
+                <span class="cpu-box-content">${parole.join(", ")}</span>
+            </div>
+        `;
+    });
 
     computerResultEl.innerHTML = html;
 }
+
+
