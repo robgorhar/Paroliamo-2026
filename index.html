@@ -19,15 +19,46 @@
 }
 
 #jolly-btn {
-    background: transparent;
-    border: none;
+    width: 60px;
+    height: 60px;
     padding: 0;
+    border: none;
+    background: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+   cursor: pointer;
+}
+#jolly-help-banner {
+    position: fixed;
+    bottom: 20%;
+    left: 50%;
+    transform: translateX(-50%);
+    background: rgba(255, 255, 255, 0.95);
+    color: #000;
+    padding: 16px 22px;
+    border-radius: 12px;
+    font-size: 18px;
+    font-weight: 600;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.25);
+    display: none;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    z-index: 9999;
+    max-width: 80%;
+    text-align: center;
     cursor: pointer;
 }
 
+#jolly-help-banner.show {
+    display: block;
+    opacity: 1;
+}
+
 #jolly-icon {
-    width: 48px;
-    height: auto;
+    width: 60px;
+    height: 60px;
+    object-fit: contain;
     transform: rotate(12deg);
 }
 
@@ -45,23 +76,26 @@
 
 #complimenti-banner {
     position: fixed;
-    top: 40%;
-    right: -100%;
-    transform: translateY(-50%);
-    background: linear-gradient(45deg, #ff7b00, #ff00c8);
-    color: white;
-    padding: 20px 30px;
-    font-size: 1.4rem;
+    top: 20%;
+    left: 50%;
+    transform: translateX(-50%);
+    padding: 20px 40px;
+    background: #ffeb3b;
+    color: #000;
+    font-size: 24px;
     font-weight: bold;
     border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+    display: none;        
+    opacity: 0;          
+    transition: opacity 0.4s ease;
     z-index: 9999;
-    transition: right 0.8s ease-out;
-}
-#complimenti-banner.show {
-    right: 50%;
-    transform: translate(50%, -50%);
 }
 
+#complimenti-banner.show {
+    display: block;
+    opacity: 1;
+}
 #timeExpiredAnimation .line {
     position: absolute;
     top: 50%;
@@ -314,12 +348,6 @@
 #linea-sx { left: 0; }
 #linea-dx { right: 0; }
 
-/* --- CARTA JOLLY SVG --- */
-<button id="jolly-btn">
-    <img src="img/jolly.png" id="jolly-icon">
-</button>
-<span id="jolly-counter">x0</span>
-
 /* --- PANNELLO PRINCIPALE --- */
 .panel {
     background: white;
@@ -538,18 +566,22 @@
 </head>
 
 <body>
-<div id="complimenti-banner">🎉 Complimenti! Hai trovato la parola più lunga possibile!!! 🎉</div>
-<div id="celebrationBanner" style="display:none;"></div>
-<div id="confettiContainer"></div>
-<div id="titleRow">
-    <h1>Paroliamo 2026</h1>
+    <div id="complimenti-banner">🎉 Complimenti! Hai trovato la parola più lunga possibile!!! 🎉</div>
+    <div id="celebrationBanner" style="display:none;"></div>
+    <div id="confettiContainer"></div>
 
-    <button id="jolly-btn">
-        <img src="img/jolly.png" id="jolly-icon">
-    </button>
+    <div id="titleRow">
+        <h1>Paroliamo 2026</h1>
 
-    <span id="jolly-counter">x0</span>
-</div>
+        <button id="jolly-btn" onclick="usaJolly()">
+            <img src="img/jolly.png" id="jolly-icon">
+        </button>
+        <span id="jolly-counter">x0</span>
+
+        <div id="jolly-help-banner">
+            Cliccando sul Jolly puoi scegliere una lettera nuova da sostituire a una di quelle estratte.
+        </div>
+    </div>
 
 
 <div id="penaltyBanner">Ahi! Ahi! Perdi un jolly!</div>
