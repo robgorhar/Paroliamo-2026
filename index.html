@@ -43,26 +43,41 @@
     transform: rotate(12deg);
 }
 
+/* --- JOLLY: stile base (desktop/tablet) --- */
 #jolly-btn {
     position: absolute;
-    right: 80px;   /* distanza dal bordo destro */
-    top: 12px;     /* distanza dall’alto: regola questo valore */
+    right: 80px;
+    top: 12px;
     z-index: 10;
+    background: transparent;
+    border: none;
+    padding: 0;
 }
+
 #jolly-counter {
-    font-size: 1.4rem;
+    position: absolute;
+    right: 115px;
+    top: 61px;
+    font-size: 1.2rem;
     font-weight: bold;
     color: #ffcc00;
     text-shadow: 1px 1px 2px #000;
-    user-select: none;
-    position: absolute;
-    right: 115px;   /* stessa distanza del jolly */
-    top: 61px;    /* sotto il jolly: regola questo valore */
-    font-size: 1.2rem;
-    font-weight: bold;
     z-index: 10;
 }
 
+/* --- VERSIONE RESPONSIVE PER SMARTPHONE --- */
+@media (max-width: 480px) {
+
+    #jolly-btn {
+        top: 75px;       /* abbassato sotto il sottotitolo */
+        right: 20px;     /* più vicino al bordo per non schiacciare il titolo */
+    }
+
+    #jolly-counter {
+        top: 125px;      /* segue il jolly */
+        right: 35px;
+    }
+}
 /* --- ANIMAZIONE TEMPO SCADUTO --- */
 #timeExpiredAnimation {
     position: fixed;
@@ -653,9 +668,9 @@
 
 
     <div id="touchControls">
-        <button id="btnBackAll" class="icon-btn">↩↩</button>
-        <button id="btnBack" class="icon-btn">↩</button>
-        <button id="btnVai" class="icon-btn">VAI</button>
+<button id="btnBackAll" class="icon-btn">◄◄</button>
+<button id="btnBack" class="icon-btn">◄</button>
+ <button id="btnVai" class="icon-btn">VAI</button>
     </div>
 
     <div id="result"></div>
