@@ -365,18 +365,22 @@ function endRound() {
 
     clearInterval(timerInterval);
 
-    if (tempoRimanente === 0) {
-        timerEl.innerText = "";
-        const anim = document.getElementById("timeExpiredAnimation");
-        anim.style.display = "block";
-        anim.classList.add("active");
+    // --- ANIMAZIONE FINE ROUND (SEMPRE) ---
+    const anim = document.getElementById("timeExpiredAnimation");
+    anim.style.display = "block";
+    anim.classList.add("active");
 
-        setTimeout(() => {
-            anim.style.display = "none";
-            anim.classList.remove("active");
-        }, 1000);
-    }
+    // lascia completare l’animazione
+    setTimeout(() => {
+        anim.classList.remove("active");
+    }, 1200);
 
+    // nascondi dopo che tutto è finito
+    setTimeout(() => {
+        anim.style.display = "none";
+    }, 1500);
+
+    // --- VERIFICA PAROLA ---
     verifica();
 
     computerResultEl.innerHTML = "";
