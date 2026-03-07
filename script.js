@@ -672,6 +672,34 @@ function mossaComputer() {
     });
 
     computerResultEl.innerHTML = html;
+// --- Splash Screen: chiusura al primo click/tap ---
+document.addEventListener("DOMContentLoaded", () => {
+  const overlay = document.getElementById("infoOverlay");
+
+  if (overlay) {
+    overlay.addEventListener("click", () => {
+      overlay.style.opacity = "0";
+
+      setTimeout(() => {
+        overlay.style.display = "none";
+      }, 350); // durata della transizione
+    });
+  }
+});
 }
+// --- Splash Screen: chiusura al primo click/tap ---
+document.addEventListener("DOMContentLoaded", () => {
+  const overlay = document.getElementById("infoOverlay");
+
+  if (overlay) {
+    overlay.addEventListener("click", () => {
+      overlay.style.opacity = "0";
+
+      setTimeout(() => {
+        overlay.style.display = "none";
+      }, 350); // durata della transizione
+    });
+  }
+});
 
 
