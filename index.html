@@ -8,7 +8,58 @@
 <title>Paroliamo Deluxe v1.3</title>
 
 <style>
+/* Overlay a schermo intero */
+.info-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.55);
+  backdrop-filter: blur(8px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+  opacity: 1;
+  transition: opacity 0.35s ease-out;
+  pointer-events: auto; /* ← AGGIUNTO */
+}
+/* Pannello centrale */
+.info-panel {
+  width: 80%;
+  max-width: 600px;
+  max-height: 80%;
+  overflow-y: auto;
+  padding: 24px 28px;
+  border-radius: 20px;
+  background: rgba(255, 255, 255, 0.15);
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  color: #f2f2f2;
+  font-family: "Inter", sans-serif;
+  box-shadow: 0 8px 25px rgba(0,0,0,0.25);
+}
 
+/* Titoli */
+.info-panel h2 {
+  margin-top: 0;
+  font-family: "Poppins", sans-serif;
+  font-weight: 600;
+}
+
+.info-panel h3 {
+  margin-top: 18px;
+  font-weight: 500;
+}
+
+/* Testo */
+.info-panel ul {
+  padding-left: 20px;
+}
+
+.tap-to-close {
+  margin-top: 20px;
+  text-align: center;
+  opacity: 0.8;
+  font-size: 0.9em;
+}
 
 #jolly-help-banner {
     position: fixed;
@@ -595,11 +646,51 @@
     to { transform: translateY(110vh) rotate(360deg); }
 }
 
+/* Icone SVG nei titoli */
+.info-panel .icon {
+  width: 22px;
+  height: 22px;
+  vertical-align: -4px;
+  margin-right: 6px;
+  transform: rotate(6deg);
+  stroke: #f2f2f2;
+  opacity: 0.9;
+}
 
+/* Icona PNG del jolly */
+.info-panel .icon-jolly {
+  width: 40px;
+  height: auto;
+  vertical-align: -5px;
+  margin-right: 6px;
+  opacity: 0.95;
+  transform: rotate(10deg);
+}
 </style>
 </head>
 
 <body>
+<body>
+  <!-- SVG ICONS SPRITE (invisibile) -->
+  <svg style="display:none;">
+    
+    <!-- Puzzle Icon -->
+    <symbol id="icon-puzzle" viewBox="0 0 24 24">
+      <path d="M12 2a2 2 0 0 1 2 2v1.2a1 1 0 0 0 1 1h1.2a2 2 0 1 1 0 4H15a1 1 0 0 0-1 1v1.2a1 1 0 0 0 1 1h1.2a2 2 0 1 1 0 4H15a1 1 0 0 0-1 1V20a2 2 0 1 1-4 0v-1.2a1 1 0 0 0-1-1H7.8a2 2 0 1 1 0-4H9a1 1 0 0 0 1-1v-1.2a1 1 0 0 0-1-1H7.8a2 2 0 1 1 0-4H9a1 1 0 0 0 1-1V4a2 2 0 0 1 2-2z"
+            stroke="currentColor" stroke-width="1.6" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+    </symbol>
+
+    <!-- Timer Icon -->
+    <symbol id="icon-timer" viewBox="0 0 24 24">
+      <circle cx="12" cy="13" r="8"
+              stroke="currentColor" stroke-width="1.6" fill="none"/>
+      <path d="M12 13l3-3"
+            stroke="currentColor" stroke-width="1.6" fill="none" stroke-linecap="round"/>
+      <path d="M9 2h6"
+            stroke="currentColor" stroke-width="1.6" fill="none" stroke-linecap="round"/>
+    </symbol>
+
+  </svg>
     <div id="complimenti-banner">🎉 Complimenti! Hai trovato la parola più lunga possibile!!! 🎉</div>
     <div id="celebrationBanner" style="display:none;"></div>
     <div id="confettiContainer"></div>
@@ -688,5 +779,40 @@
 <script src="script.js"></script>
 <div id="linea-sx"></div>
 <div id="linea-dx"></div>
+
+<!-- Splash Screen Informativo -->
+<div id="infoOverlay" class="info-overlay">
+  <div class="info-panel">
+    <h2><svg class="icon"><use href="#icon-puzzle"/></svg> Come si gioca</h2>
+    <p>È il classico “Paroliamo”: componi la parola più lunga che puoi.<br>
+    Sappi però che il computer è imbattibile… ma si può pareggiare!</p>
+
+    <h3>Risultati possibili</h3>
+    <ul>
+      <li><strong>Pareggio:</strong> hai trovato la parola più lunga possibile → <strong>vinci 1 Jolly</strong></li>
+      <li><strong>-1 lettera:</strong> sei grande! → non perdi Jolly</li>
+      <li><strong>-2 o più lettere:</strong> se ne hai, perdi 1 Jolly</li>
+    </ul>
+
+    <h2>
+  <img src="img/jolly.png" class="icon-jolly" alt="Jolly">
+  Uso del Jolly
+</h2>
+    <p>
+      Le lettere non ti convincono?<br>
+      Se hai Jolly puoi usarne uno!<br>
+      1. Clicca sul cappello<br>
+      2. Scegli la lettera<br>
+      3. Clicca sulla lettera da sostituire<br>
+      (Il timer è in pausa mentre usi il Jolly)
+    </p>
+
+    <h2><svg class="icon"><use href="#icon-timer"/></svg> Modalità di gioco</h2>
+    <p>Puoi giocare a tempo illimitato o col timer. Decidi tu.</p>
+
+    <div class="tap-to-close">Tocca per continuare</div>
+  </div>
+</div>
+
 </body>
 </html>
